@@ -1,2 +1,5 @@
 [[plugins]]
   package = "netlify-plugin-password-protection"
+
+  [plugins.inputs]
+    instructions = "The password is 'cheesepizza'" # default
