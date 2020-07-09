@@ -1,0 +1,11 @@
+name: netlify-plugin-password-protection
+inputs:
+  - name: fileFilter
+    description: File name / path for generated encrypted file
+    default: "*.html"
+  - name: directoryFilter
+    description: File name / path for generated encrypted file
+    default: ["!node_modules", "!admin", "!plugins"]
+  - name: title
+    description: Title for output HTML page
+    default: "Protected Page"
