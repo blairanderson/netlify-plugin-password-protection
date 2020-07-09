@@ -2,4 +2,5 @@
   package = "netlify-plugin-password-protection"
 
   [plugins.inputs]
+    title = "Netlify Free Password Protection"
     instructions = "Password is <em>'cheesepizza'</em><br>(all this text is a config option)<br><small>Go ahead and view the source</small>"
