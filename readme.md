@@ -1,5 +1,7 @@
 # netlify-plugin-password-protection
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/27c1e498-cf03-4eb7-92e8-03e502ed1300/deploy-status)](https://app.netlify.com/sites/password-protection-plugin/deploys)
+
 Based on the fantastic CLI tool [staticrypt](https://github.com/robinmoisson/staticrypt), this plugin will encrypt your files with a password from your NETLIFY environment variables
 
 ## Setup
@@ -16,6 +18,8 @@ npm i --s netlify-plugin-password-protection
 [[plugins]]
   package = "netlify-plugin-password-protection"
 ```
+
+Deploy your Netlify Site!
 
 ### Optional Configuration in `netlify.toml`
 
