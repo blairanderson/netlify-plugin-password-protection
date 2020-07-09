@@ -11,7 +11,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "null"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
