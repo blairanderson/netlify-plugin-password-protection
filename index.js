@@ -11,16 +11,21 @@ const SCRIPT_TAG =
   '" integrity="sha384-lp4k1VRKPU9eBnPePjnJ9M2RF3i7PC30gXs70+elCVfgwLwx1tv5+ctxdtwxqZa7" crossorigin="anonymous"></script>';
 
 const { PROTECTED_PASSWORD } = process.env;
+const FALLBACK_PASSWORD = "P@SS-WORD";
+const FALLBACK_INSTRUCTIONS =
+  "Password is <em>'" +
+  FALLBACK_PASSWORD +
+  "'</em><br>(Set an Env Variable `PROTECTED_PASSWORD`)";
 
 module.exports = {
   onPostBuild: async ({ inputs, constants, utils }) => {
     const { IS_LOCAL } = constants;
+    let password = PROTECTED_PASSWORD;
+    let instructions = inputs.instructions || "";
 
-    if (PROTECTED_PASSWORD === null || PROTECTED_PASSWORD === undefined) {
-      return utils.build.failBuild(
-        "Failed to password protect. missing environment variable",
-        { PROTECTED_PASSWORD }
-      );
+    if (password === null || password === undefined) {
+      password = FALLBACK_PASSWORD;
+      instructions = FALLBACK_INSTRUCTIONS;
     }
 
     const htmlFiles = await getHtmlFiles(constants.PUBLISH_DIR, inputs);
@@ -32,10 +37,10 @@ module.exports = {
 
       for (const filePath of htmlFiles) {
         const contents = FileSystem.readFileSync(filePath, "utf8");
-        const encrypted = encrypt(contents, PROTECTED_PASSWORD);
+        const encrypted = encrypt(contents, password);
         const hmac = CryptoJS.HmacSHA256(
           encrypted,
-          CryptoJS.SHA256(PROTECTED_PASSWORD).toString()
+          CryptoJS.SHA256(password).toString()
         ).toString();
         const encryptedMessage = hmac + encrypted;
 
@@ -48,7 +53,7 @@ module.exports = {
         genFile(
           {
             title: inputs.title || "Protected Page",
-            instructions: inputs.instructions || "",
+            instructions: instructions,
             encrypted: encryptedMessage,
             crypto_tag: SCRIPT_TAG,
             file: path.join(__dirname, "password_template.html"),
