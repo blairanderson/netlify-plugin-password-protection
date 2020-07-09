@@ -18,6 +18,7 @@ include:
 # Exclude from processing.
 # The following items will not be processed.
 exclude:
+  - password_template.html
   - readme.md
   - LICENSE.txt
   - netlify.toml
