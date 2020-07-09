@@ -25,7 +25,11 @@ module.exports = {
 
     if (password === null || password === undefined) {
       password = FALLBACK_PASSWORD;
-      instructions = FALLBACK_INSTRUCTIONS;
+      instructions =
+        FALLBACK_INSTRUCTIONS +
+        '<br> <a target="_blank" href="https://app.netlify.com/sites/' +
+        constants.SITE_ID +
+        '/settings/deploys#environment">Edit your Deploy Settings<a/>';
     }
 
     const htmlFiles = await getHtmlFiles(constants.PUBLISH_DIR, inputs);
