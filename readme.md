@@ -34,4 +34,8 @@ Deploy your Netlify Site!
     instructions = "" # default
 ```
 
-Made by [Blair Anderson](https://www.andersonassociates.net)
+We use [paulmillr/readdirp](https://github.com/paulmillr/readdirp#options) and pass both options `fileFilter` and `directoryFilter` directly to choose which html files will be encrypted.
+
+[License][license] MIT
+
+Made by [Blair Anderson](https://www.andersonassociates.net/custom-software/)
