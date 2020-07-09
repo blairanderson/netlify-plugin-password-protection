@@ -10,17 +10,24 @@ Based on the fantastic CLI tool [staticrypt](https://github.com/robinmoisson/sta
 npm i --s netlify-plugin-password-protection
 ```
 
-### Configure the plugin in `netlify.toml` (these are default values)
+### Add the plugin in `netlify.toml`
+
+```toml
+[[plugins]]
+  package = "netlify-plugin-password-protection"
+```
+
+### Optional Configuration in `netlify.toml`
 
 ```toml
 [[plugins]]
   package = "netlify-plugin-password-protection"
 
   [plugins.inputs]
-    fileFilter = "*.html"
-    directoryFilter = ["!node_modules", "!admin", "!plugins"]
-    title = "Protected Page"
-    instructions = ""
+    fileFilter = "*.html" # default
+    directoryFilter = ["!node_modules", "!admin", "!plugins"] # default
+    title = "Protected Page" # default
+    instructions = "" # default
 ```
 
 Made by [Blair Anderson](https://www.andersonassociates.net)
