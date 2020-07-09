@@ -13,9 +13,9 @@ const SCRIPT_TAG =
 const { PROTECTED_PASSWORD } = process.env;
 const FALLBACK_PASSWORD = "P@SS-WORD";
 const FALLBACK_INSTRUCTIONS =
-  "Password is <em>'" +
+  "Password is '" +
   FALLBACK_PASSWORD +
-  "'</em><br>(Set an Env Variable `PROTECTED_PASSWORD`)";
+  "'<br><small>(Requires environtment variable PROTECTED_PASSWORD)</small>";
 
 module.exports = {
   onPostBuild: async ({ inputs, constants, utils }) => {
@@ -27,9 +27,7 @@ module.exports = {
       password = FALLBACK_PASSWORD;
       instructions =
         FALLBACK_INSTRUCTIONS +
-        '<br> <a target="_blank" href="https://app.netlify.com/sites/' +
-        constants.SITE_ID +
-        '/settings/deploys#environment">Edit your Deploy Settings<a/>';
+        '<br> <a target="_blank" href="https://app.netlify.com/sites/">Edit your Deploy Settings<a/>';
     }
 
     const htmlFiles = await getHtmlFiles(constants.PUBLISH_DIR, inputs);
