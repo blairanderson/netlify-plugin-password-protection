@@ -15,6 +15,7 @@ const { PROTECTED_PASSWORD } = process.env;
 module.exports = {
   onPostBuild: async ({ inputs, constants, utils }) => {
     const { IS_LOCAL } = constants;
+
     if (PROTECTED_PASSWORD === null || PROTECTED_PASSWORD === undefined) {
       return utils.build.failBuild(
         "Failed to password protect. missing environment variable",
@@ -24,78 +25,38 @@ module.exports = {
 
     const htmlFiles = await getHtmlFiles(constants.PUBLISH_DIR, inputs);
 
-    const input = {
-      title: inputs.title || "Protected Page", // Title for output HTML page
-      instructions: inputs.instructions || "", //Special instructions to display to the user.
-      file: path.join(__dirname, "password_template.html") // Path to custom HTML template with password prompt
-    };
-
-    /**
-     * Salt and encrypt a msg with a password.
-     * Inspired by https://github.com/adonespitogo
-     */
-    const password = PROTECTED_PASSWORD;
-
     try {
       console.log(
         "START Password Encryption:\n" + JSON.stringify(htmlFiles, null, 4)
       );
+
       for (const filePath of htmlFiles) {
-        try {
-          var contents = FileSystem.readFileSync(filePath, "utf8");
-        } catch (e) {
-          if (IS_LOCAL) {
-            console.log("Failure: input file does not exist!");
-          }
-
-          utils.build.failBuild("Failure: input file does not exist!", {
-            error: e
-          });
-        }
-
-        // encrypt input
-        if (IS_LOCAL) {
-          console.log(
-            "[LOCAL LOGGING] encrypting contents " +
-              filePath +
-              " {" +
-              password +
-              "}:"
-          );
-        }
-
-        var encrypted = encrypt(contents, PROTECTED_PASSWORD);
-
-        var hmac = CryptoJS.HmacSHA256(
+        const contents = FileSystem.readFileSync(filePath, "utf8");
+        const encrypted = encrypt(contents, PROTECTED_PASSWORD);
+        const hmac = CryptoJS.HmacSHA256(
           encrypted,
           CryptoJS.SHA256(PROTECTED_PASSWORD).toString()
         ).toString();
-
-        var encryptedMessage = hmac + encrypted;
+        const encryptedMessage = hmac + encrypted;
 
         if (IS_LOCAL) {
           console.log("encryped: " + encryptedMessage);
           console.log("\n\n");
           console.log("start genFile:" + filePath + "\n");
         }
-        try {
-          genFile(
-            {
-              title: input.title,
-              instructions: input.instructions,
-              encrypted: encryptedMessage,
-              crypto_tag: SCRIPT_TAG,
-              file: input.file,
-              outputFilePath: filePath
-            },
-            utils
-          );
-        } catch (e) {
-          utils.build.failBuild(
-            "Failure: could not generate file with inputs.",
-            { error: e }
-          );
-        }
+
+        genFile(
+          {
+            title: inputs.title || "Protected Page",
+            instructions: inputs.instructions || "",
+            encrypted: encryptedMessage,
+            crypto_tag: SCRIPT_TAG,
+            file: path.join(__dirname, "password_template.html"),
+            outputFilePath: filePath
+          },
+          utils
+        );
+
         if (IS_LOCAL) {
           console.log("end genFile:" + filePath + "\n");
         }

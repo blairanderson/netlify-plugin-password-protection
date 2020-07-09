@@ -1,6 +1,6 @@
 {
   "name": "netlify-plugin-password-protection",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "a plugin to encrypt your static HTML files, similar to using staticrypt",
   "author": "Blair Anderson",
   "license": "MIT",
