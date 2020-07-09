@@ -9,3 +9,6 @@ inputs:
   - name: title
     description: Title for output HTML page
     default: "Protected Page"
+  - name: instructions
+    description: Includes an instructional 'hint' for your visitors
+    default: ""
