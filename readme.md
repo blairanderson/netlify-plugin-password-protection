@@ -36,8 +36,12 @@ Deploy your Netlify Site!
     instructions = "" # default
 ```
 
+### View the [Demo](https://password-protection-plugin.netlify.app/)
+
+Default password is `P@SS-WORD`. Overwrite with `process.env.PROTECTED_PASSWORD`
+
 We use [paulmillr/readdirp](https://github.com/paulmillr/readdirp#options) and pass both options `fileFilter` and `directoryFilter` directly to choose which html files will be encrypted.
 
 [License][license] MIT
 
-Made by [Blair Anderson](https://www.andersonassociates.net/custom-software/)
+Made by [Blair Anderson](https://www.blandersoft.com/)
